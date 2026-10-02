@@ -55,10 +55,7 @@ export function InfrastructureSection() {
                   alt="Monumento ecuestre a Simón Bolívar iluminado de noche en Tunja"
                   className="w-full h-full object-contain object-bottom grayscale-[35%] transition-all duration-[1500ms] ease-out group-hover:scale-105 group-hover:grayscale-0"
                 />
-                <span className="absolute top-6 left-6 inline-flex items-center gap-2 border border-foreground/15 bg-background/70 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground backdrop-blur">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#eca8d6] animate-pulse" />
-                  Monumento ecuestre
-                </span>
+
               </div>
 
               <div className="flex flex-col justify-center px-8 pb-12 lg:px-12 lg:py-16">
