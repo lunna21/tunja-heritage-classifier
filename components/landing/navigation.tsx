@@ -106,7 +106,7 @@ export function Navigation() {
                 {isMotionPaused ? "Reanudar animaciones" : "Pausar animaciones"}
               </button>
               <a
-                href="#features"
+                href="/login"
                 className={`inline-flex min-h-11 items-center justify-center rounded-full px-6 text-sm font-semibold transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled ? "bg-foreground text-background hover:bg-foreground/90" : "bg-white text-black hover:bg-white/90"}`}
               >
                 Explora Tunja
@@ -187,11 +187,11 @@ export function Navigation() {
                   Planear visita
                 </a>
                 <a
-                  href="#features"
+                  href="/login"
                   onClick={closeMobileMenu}
                   className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-foreground px-5 text-base font-semibold text-background hover:bg-foreground/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                 >
-                  Descubrir el patrimonio
+                  Explora Tunja
                 </a>
               </div>
             </div>
