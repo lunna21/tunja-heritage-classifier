@@ -1,151 +1,203 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, Pause, Play, X } from "lucide-react";
 
 const navLinks = [
-  { name: "Patrimonio",    href: "#features"      },
-  { name: "Recorrido",     href: "#how-it-works"  },
-  { name: "Arquitectura",  href: "#infra"          },
-  { name: "Rutas",         href: "#integrations"  },
-  { name: "Conservación",  href: "#security"      },
+  { name: "Patrimonio", href: "#features" },
+  { name: "Recorrido", href: "#how-it-works" },
+  { name: "Arquitectura", href: "#infra" },
+  { name: "Rutas", href: "#integrations" },
+  { name: "Conservación", href: "#security" },
 ];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMotionPaused, setIsMotionPaused] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMobileLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    firstMobileLinkRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const toggleMotion = () => {
+    const nextPaused = !isMotionPaused;
+    document.documentElement.dataset.animationsPaused = String(nextPaused);
+    setIsMotionPaused(nextPaused);
+  };
+
   return (
-    <header
-      className={`fixed z-50 transition-all duration-500 ${
-        isScrolled 
-          ? "top-4 left-4 right-4" 
-          : "top-0 left-0 right-0"
-      }`}
-    >
-      <nav 
-        className={`mx-auto transition-all duration-500 ${
-          isScrolled || isMobileMenuOpen
-            ? "bg-background/80 backdrop-blur-xl border border-foreground/10 rounded-2xl shadow-lg max-w-[1200px]"
-            : "bg-transparent max-w-[1400px]"
+    <>
+      <a
+        href="#main-content"
+        className="sr-only fixed left-4 top-4 z-[100] border border-foreground bg-background px-4 py-3 text-sm font-medium text-foreground focus:not-sr-only focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+      >
+        Saltar al contenido
+      </a>
+
+      <header
+        className={`fixed z-50 transition-all duration-500 ${
+          isScrolled ? "top-4 left-4 right-4" : "top-0 left-0 right-0"
         }`}
       >
-        <div 
-          className={`flex items-center justify-between transition-all duration-500 px-6 lg:px-8 ${
-            isScrolled ? "h-14" : "h-20"
+        <nav
+          aria-label="Navegación principal"
+          className={`mx-auto transition-all duration-500 ${
+            isScrolled
+              ? "max-w-[1200px] rounded-2xl border border-foreground/10 bg-background/90 shadow-lg backdrop-blur-xl"
+              : "max-w-[1400px] rounded-b-2xl border border-white/10 bg-black/60 shadow-lg backdrop-blur-lg"
           }`}
         >
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl text-foreground" : "text-2xl text-white"}`}>TUNJA</span>
-            <span className={`font-mono transition-all duration-500 ${isScrolled ? "text-[10px] mt-0.5 text-muted-foreground" : "text-xs mt-1 text-white/60"}`}>PATRIMONIO</span>
-          </a>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`text-sm transition-colors duration-300 relative group ${isScrolled ? "text-foreground/70 hover:text-foreground" : "text-white/70 hover:text-white"}`}
-              >
-                {link.name}
-                <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-300 group-hover:w-full ${isScrolled ? "bg-foreground" : "bg-white"}`} />
-              </a>
-            ))}
-          </div>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <a href="#" className={`transition-all duration-500 ${isScrolled ? "text-xs text-foreground/70 hover:text-foreground" : "text-sm text-white/70 hover:text-white"}`}>
-              Agenda
+          <div className={`flex items-center justify-between px-6 transition-all duration-500 lg:px-8 ${isScrolled ? "h-14" : "h-20"}`}>
+            <a href="/" className="group inline-flex min-h-11 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
+              <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl text-foreground" : "text-2xl text-white"}`}>
+                TUNJA
+              </span>
+              <span className={`mt-0.5 font-mono text-[10px] transition-all duration-500 ${isScrolled ? "text-muted-foreground" : "text-white"}`}>
+                PATRIMONIO
+              </span>
             </a>
-            <Button
-              size="sm"
-              className={`rounded-full transition-all duration-500 ${isScrolled ? "bg-foreground hover:bg-foreground/90 text-background px-4 h-8 text-xs" : "bg-white hover:bg-white/90 text-black px-6"}`}
-            >
-             Explora Tunja
-            </Button>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden p-2 transition-colors duration-500 ${isScrolled || isMobileMenuOpen ? "text-foreground" : "text-white"}`}
-            aria-label="Abrir menú"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
+            <div className="hidden items-center gap-7 lg:flex xl:gap-10">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`relative inline-flex min-h-11 items-center text-sm font-medium transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled ? "text-foreground hover:text-foreground/75" : "text-white hover:text-white/80"}`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
 
-      </nav>
-      
-      {/* Mobile Menu - Full Screen Overlay */}
-      <div
-        className={`md:hidden fixed inset-0 bg-background z-40 transition-all duration-500 ${
-          isMobileMenuOpen 
-            ? "opacity-100 pointer-events-auto" 
-            : "opacity-0 pointer-events-none"
-        }`}
-        style={{ top: 0 }}
-      >
-        <div className="flex flex-col h-full px-8 pt-28 pb-8">
-          {/* Navigation Links */}
-          <div className="flex-1 flex flex-col justify-center gap-8">
-            {navLinks.map((link, i) => (
+            <div className="hidden items-center gap-4 lg:flex">
               <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-5xl font-display text-foreground hover:text-muted-foreground transition-all duration-500 ${
-                  isMobileMenuOpen 
-                    ? "opacity-100 translate-y-0" 
-                    : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: isMobileMenuOpen ? `${i * 75}ms` : "0ms" }}
+                href="#developers"
+                className={`inline-flex min-h-11 items-center text-sm font-medium transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled ? "text-foreground hover:text-foreground/75" : "text-white hover:text-white/80"}`}
               >
-                {link.name}
+                Planear visita
               </a>
-            ))}
+              <button
+                type="button"
+                aria-pressed={isMotionPaused}
+                onClick={toggleMotion}
+                className={`inline-flex min-h-11 items-center text-xs font-medium underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled ? "text-foreground" : "text-white"}`}
+              >
+                {isMotionPaused ? "Reanudar animaciones" : "Pausar animaciones"}
+              </button>
+              <a
+                href="#features"
+                className={`inline-flex min-h-11 items-center justify-center rounded-full px-6 text-sm font-semibold transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled ? "bg-foreground text-background hover:bg-foreground/90" : "bg-white text-black hover:bg-white/90"}`}
+              >
+                Explora Tunja
+              </a>
+            </div>
+
+            <div className="flex items-center gap-1 lg:hidden">
+              <button
+                type="button"
+                onClick={toggleMotion}
+                className={`inline-flex size-11 items-center justify-center rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled || isMobileMenuOpen ? "text-foreground" : "text-white"}`}
+                aria-label={isMotionPaused ? "Reanudar animaciones" : "Pausar animaciones"}
+                aria-pressed={isMotionPaused}
+              >
+                {isMotionPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
+              </button>
+              <button
+                ref={menuButtonRef}
+                type="button"
+                onClick={() => setIsMobileMenuOpen((open) => !open)}
+                className={`inline-flex size-11 items-center justify-center rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${isScrolled || isMobileMenuOpen ? "text-foreground" : "text-white"}`}
+                aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-navigation-panel"
+              >
+                {isMobileMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+              </button>
+            </div>
           </div>
-          
-          {/* Bottom CTAs */}
-          <div className={`flex gap-4 pt-8 border-t border-foreground/10 transition-all duration-500 ${
-            isMobileMenuOpen 
-              ? "opacity-100 translate-y-0" 
-              : "opacity-0 translate-y-4"
+        </nav>
+
+        <div
+          id="mobile-navigation-panel"
+          aria-hidden={!isMobileMenuOpen}
+          inert={!isMobileMenuOpen}
+          className={`fixed inset-0 z-40 bg-background transition-opacity duration-300 lg:hidden ${
+            isMobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
           }`}
-          style={{ transitionDelay: isMobileMenuOpen ? "300ms" : "0ms" }}
+        >
+          <button
+            type="button"
+            onClick={closeMobileMenu}
+            className="absolute right-6 top-5 inline-flex size-11 items-center justify-center rounded-md text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            aria-label="Cerrar menú"
           >
-            <Button 
-              variant="outline" 
-              className="flex-1 rounded-full h-14 text-base"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Agenda
-            </Button>
-            <Button 
-              className="flex-1 bg-foreground text-background rounded-full h-14 text-base"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Planear visita
-            </Button>
+            <X aria-hidden="true" />
+          </button>
+          <div className="flex h-full flex-col px-8 pb-8 pt-24">
+            <nav aria-label="Navegación móvil" className="flex flex-1 flex-col justify-center gap-4">
+              {navLinks.map((link, index) => (
+                <a
+                  key={link.name}
+                  ref={index === 0 ? firstMobileLinkRef : undefined}
+                  href={link.href}
+                  onClick={closeMobileMenu}
+                  className="inline-flex min-h-12 items-center font-display text-4xl text-foreground transition-colors hover:text-muted-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:text-5xl"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            <div className="flex flex-col gap-3 border-t border-border pt-6">
+              <button
+                type="button"
+                aria-pressed={isMotionPaused}
+                onClick={toggleMotion}
+                className="inline-flex min-h-11 items-center text-sm font-medium text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+              >
+                {isMotionPaused ? "Reanudar animaciones" : "Pausar animaciones"}
+              </button>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#developers"
+                  onClick={closeMobileMenu}
+                  className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-foreground/50 px-5 text-base font-medium text-foreground hover:bg-foreground/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                >
+                  Planear visita
+                </a>
+                <a
+                  href="#features"
+                  onClick={closeMobileMenu}
+                  className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-foreground px-5 text-base font-semibold text-background hover:bg-foreground/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                >
+                  Descubrir el patrimonio
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

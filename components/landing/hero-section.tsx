@@ -114,6 +114,12 @@ export function HeroSection() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        document.documentElement.dataset.animationsPaused === "true"
+      ) {
+        return;
+      }
       setWordIndex((prev) => (prev + 1) % words.length);
     }, 2500);
     return () => clearInterval(interval);
@@ -168,7 +174,7 @@ export function HeroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="inline-flex items-center gap-3 text-sm font-mono text-white/60">
+          <span className="inline-flex items-center gap-3 text-sm font-mono text-white/90">
             <span className="w-8 h-px bg-white/30" />
             Patrimonio Cultural de Tunja, Boyacá
           </span>
@@ -207,7 +213,7 @@ export function HeroSection() {
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col gap-2">
               <span className="text-3xl lg:text-4xl font-display text-white">{stat.value}</span>
-              <span className="text-xs text-white/50 leading-tight">
+              <span className="text-xs text-white/85 leading-tight">
                 {stat.label}
               </span>
             </div>

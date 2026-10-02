@@ -168,9 +168,9 @@ export function IntegrationsSection() {
             ))}
           </div>
 
-          <a href="#" className="group inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-foreground transition-colors">
+          <a href="#developers" className="group inline-flex min-h-11 items-center gap-2 text-sm font-mono text-muted-foreground hover:text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring">
             <Footprints className="w-4 h-4" aria-hidden="true" />
-            Ver todas las rutas
+            Planear la visita
             <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
           </a>
         </div>

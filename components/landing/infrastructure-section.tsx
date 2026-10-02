@@ -3,10 +3,10 @@
 import { useEffect, useState, useRef } from "react";
 
 const regions = [
-  { name: "Catedral Basílica", detail: "Plaza de Bolívar", status: "abierto" },
-  { name: "Santo Domingo", detail: "Capilla del Rosario", status: "abierto" },
-  { name: "San Francisco", detail: "Retablo mayor", status: "abierto" },
-  { name: "Santa Clara la Real", detail: "Museo conventual", status: "abierto" },
+  { name: "Catedral Basílica", detail: "Plaza de Bolívar", status: "Lugar patrimonial" },
+  { name: "Santo Domingo", detail: "Capilla del Rosario", status: "Lugar patrimonial" },
+  { name: "San Francisco", detail: "Retablo mayor", status: "Lugar patrimonial" },
+  { name: "Santa Clara la Real", detail: "Museo conventual", status: "Lugar patrimonial" },
 ];
 
 export function InfrastructureSection() {
@@ -24,13 +24,6 @@ export function InfrastructureSection() {
 
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveRegion((prev) => (prev + 1) % regions.length);
-    }, 3000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -198,12 +191,15 @@ export function InfrastructureSection() {
           isVisible ? "opacity-100" : "opacity-0"
         }`}>
           {regions.map((region, index) => (
-            <div
+            <button
               key={region.name}
-              className={`p-6 border transition-all duration-300 cursor-default ${
-                activeRegion === index 
-                  ? "border-foreground/30 bg-foreground/[0.04]" 
-                  : "border-foreground/10"
+              type="button"
+              aria-pressed={activeRegion === index}
+              onClick={() => setActiveRegion(index)}
+              className={`w-full border p-6 text-left transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${
+                activeRegion === index
+                  ? "border-foreground/40 bg-foreground/[0.04]"
+                  : "border-foreground/20 hover:border-foreground/40"
               }`}
             >
               <div className="flex items-center gap-2 mb-3">
@@ -216,7 +212,7 @@ export function InfrastructureSection() {
               </div>
               <span className="font-medium block mb-1">{region.name}</span>
               <span className="text-sm text-muted-foreground">{region.detail}</span>
-            </div>
+            </button>
           ))}
         </div>
       </div>

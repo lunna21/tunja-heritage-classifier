@@ -52,14 +52,6 @@ export function TestimonialsSection() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDirection("right");
-      setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
-
   const goTo = (index: number) => {
     setDirection(index > activeIndex ? "right" : "left");
     setActiveIndex(index);
@@ -92,7 +84,7 @@ export function TestimonialsSection() {
         {/* Header */}
         <div className="flex items-center justify-between mb-20">
           <div>
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-background/40 mb-4">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-background/80 mb-4">
               <span className="w-12 h-px bg-background/20" />
               Testimonios
             </span>
@@ -100,21 +92,25 @@ export function TestimonialsSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}>
               Voces de quienes
-              <span className="text-background/40"> la recorren.</span>
+              <span className="text-background/80"> la recorren.</span>
             </h2>
           </div>
           
           {/* Navigation arrows */}
           <div className="hidden lg:flex items-center gap-2">
-            <button
+              <button
+              type="button"
+              aria-label="Testimonio anterior"
               onClick={goPrev}
-              className="p-4 border border-background/20 hover:bg-background/10 transition-colors"
+              className="inline-flex size-11 items-center justify-center border border-background/40 hover:bg-background/10 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-background"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <button
+              <button
+              type="button"
+              aria-label="Testimonio siguiente"
               onClick={goNext}
-              className="p-4 border border-background/20 hover:bg-background/10 transition-colors"
+              className="inline-flex size-11 items-center justify-center border border-background/40 hover:bg-background/10 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-background"
             >
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -126,13 +122,14 @@ export function TestimonialsSection() {
           {/* Quote side */}
           <div className="lg:col-span-7 relative">
             {/* Large quote mark */}
-            <span className="absolute -left-4 -top-8 text-[200px] font-display text-background/5 leading-none select-none">
+            <span aria-hidden="true" className="absolute -left-4 -top-8 text-[200px] font-display text-background/5 leading-none select-none">
               &ldquo;
             </span>
             
             <div className="relative">
-              <blockquote 
+              <blockquote
                 key={activeIndex}
+                aria-live="polite"
                 className="text-3xl lg:text-4xl xl:text-5xl font-display leading-[1.2] tracking-tight animate-fadeSlideIn"
               >
                 {activeTestimonial.quote}
@@ -147,7 +144,7 @@ export function TestimonialsSection() {
                 </div>
                 <div>
                   <p className="text-lg font-medium">{activeTestimonial.author}</p>
-                  <p className="text-background/60">
+                  <p className="text-background/80">
                     {activeTestimonial.role}, {activeTestimonial.company}
                   </p>
                 </div>
@@ -165,7 +162,7 @@ export function TestimonialsSection() {
               <span className="text-7xl lg:text-8xl font-display block mb-4">
                 {activeTestimonial.metric.value}
               </span>
-              <span className="text-lg text-background/60">
+              <span className="text-lg text-background/80">
                 {activeTestimonial.metric.label}
               </span>
             </div>
@@ -173,16 +170,19 @@ export function TestimonialsSection() {
             {/* Progress indicators */}
             <div className="flex gap-2">
               {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => goTo(idx)}
-                  className="flex-1 h-1 bg-background/20 overflow-hidden"
-                >
-                  <div 
-                    className={`h-full bg-background transition-all duration-300 ${
-                      idx === activeIndex ? "w-full" : idx < activeIndex ? "w-full opacity-50" : "w-0"
+                  <button
+                    key={testimonials[idx].company}
+                    type="button"
+                    aria-label={`Mostrar testimonio ${idx + 1}: ${testimonials[idx].company}`}
+                    aria-pressed={idx === activeIndex}
+                    onClick={() => goTo(idx)}
+                    className="inline-flex min-h-11 flex-1 items-center px-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background"
+                  >
+                  <span
+                    aria-hidden="true"
+                    className={`h-1 w-full bg-background transition-all duration-300 ${
+                      idx === activeIndex ? "opacity-100" : "opacity-40"
                     }`}
-                    style={idx === activeIndex ? { animation: "progress 8s linear forwards" } : {}}
                   />
                 </button>
               ))}
@@ -190,18 +190,20 @@ export function TestimonialsSection() {
 
             {/* Company list */}
             <div className="mt-4 pt-6 border-t border-background/10">
-              <span className="text-xs font-mono text-background/30 uppercase tracking-widest block mb-4">
+              <span className="text-xs font-mono text-background/80 uppercase tracking-widest block mb-4">
                 Lugares destacados
               </span>
               <div className="flex flex-wrap gap-3">
                 {testimonials.map((t, idx) => (
                   <button
                     key={t.company}
+                    type="button"
+                    aria-pressed={idx === activeIndex}
                     onClick={() => goTo(idx)}
-                    className={`px-4 py-2 text-sm border transition-all ${
-                      idx === activeIndex 
-                        ? "border-background/40 text-background" 
-                        : "border-background/10 text-background/40 hover:border-background/30"
+                    className={`inline-flex min-h-11 items-center border px-4 py-2 text-left text-sm transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background ${
+                      idx === activeIndex
+                        ? "border-background/50 text-background"
+                        : "border-background/40 text-background/80 hover:border-background/60"
                     }`}
                   >
                     {t.company}

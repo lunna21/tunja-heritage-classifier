@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export function CtaSection() {
@@ -62,13 +61,13 @@ export function CtaSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <Button
-                    size="lg"
-                    className="bg-foreground hover:bg-foreground/90 text-background px-8 h-14 text-base rounded-full group"
+                  <a
+                    href="#features"
+                    className="group inline-flex h-14 items-center justify-center rounded-full bg-foreground px-8 text-base font-semibold text-background transition-colors hover:bg-foreground/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                   >
                     Inicia el recorrido
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                    <ArrowRight aria-hidden="true" className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+                  </a>
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-8 font-mono">
