@@ -15,7 +15,7 @@
   --secondary: oklch(0.12 0.008 260);
   --secondary-foreground: oklch(0.94 0.005 90);
   --muted: oklch(0.12 0.008 260);
-  --muted-foreground: oklch(0.55 0.015 90);
+  --muted-foreground: oklch(0.68 0.015 90);
   --accent: oklch(0.14 0.01 260);
   --accent-foreground: oklch(0.94 0.005 90);
   --destructive: oklch(0.577 0.245 27.325);
@@ -90,6 +90,44 @@
   }
   html {
     scroll-behavior: smooth;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+html[data-animations-paused="true"] *,
+html[data-animations-paused="true"] *::before,
+html[data-animations-paused="true"] *::after {
+  animation-play-state: paused !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-animations-paused="true"] canvas {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  canvas {
+    visibility: hidden;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

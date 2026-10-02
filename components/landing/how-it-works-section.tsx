@@ -57,6 +57,12 @@ export function HowItWorksSection() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        document.documentElement.dataset.animationsPaused === "true"
+      ) {
+        return;
+      }
       setActiveStep((prev) => (prev + 1) % steps.length);
     }, 6000);
     return () => clearInterval(interval);
@@ -76,7 +82,7 @@ export function HowItWorksSection() {
           {/* Titre colonne gauche */}
           <div className="overflow-hidden pb-0 lg:pb-32">
             <div className={`transition-all duration-1000 ${isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"}`}>
-              <span className="inline-flex items-center gap-3 text-sm font-mono text-white/40 mb-8">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-white/80 mb-8">
                 <span className="w-12 h-px bg-white/20" />
                 Recorrido
               </span>
@@ -86,8 +92,8 @@ export function HowItWorksSection() {
               isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
             }`}>
               <span className="block">Explora.</span>
-              <span className="block text-white/30">Descubre.</span>
-              <span className="block text-white/10">Preserva.</span>
+              <span className="block text-white/85">Descubre.</span>
+              <span className="block text-white/75">Preserva.</span>
             </h2>
           </div>
 
@@ -112,6 +118,7 @@ export function HowItWorksSection() {
               key={step.number}
               type="button"
               onClick={() => setActiveStep(index)}
+              aria-pressed={activeStep === index}
               className={`relative text-left p-8 lg:p-12 border transition-all duration-500 ${
                 activeStep === index 
                   ? "bg-[#000000] border-white/60" 
@@ -121,7 +128,7 @@ export function HowItWorksSection() {
               {/* Step number with animated line */}
               <div className="flex items-center gap-4 mb-8">
                 <span className={`text-4xl font-display transition-colors duration-300 ${
-                  activeStep === index ? "text-[#eca8d6]" : "text-white/20"
+                  activeStep === index ? "text-[#eca8d6]" : "text-white/75"
                 }`}>
                   {step.number}
                 </span>
@@ -136,14 +143,12 @@ export function HowItWorksSection() {
               <h3 className="text-3xl lg:text-4xl font-display mb-2">
                 {step.title}
               </h3>
-              <span className="text-xl text-white/40 font-display block mb-6">
+              <span className="text-xl text-white/80 font-display block mb-6">
                 {step.subtitle}
               </span>
 
               {/* Description */}
-              <p className={`text-white/60 leading-relaxed transition-opacity duration-300 ${
-                activeStep === index ? "opacity-100" : "opacity-60"
-              }`}>
+              <p className="text-white/80 leading-relaxed">
                 {step.description}
               </p>
 

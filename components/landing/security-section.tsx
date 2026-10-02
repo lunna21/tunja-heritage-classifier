@@ -49,13 +49,6 @@ export function SecuritySection() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % securityFeatures.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section id="security" ref={sectionRef} className="relative py-32 lg:py-40 overflow-hidden">
       {/* Background accent removed */}
@@ -135,9 +128,11 @@ export function SecuritySection() {
           {/* Feature cards stack */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             {securityFeatures.map((feature, index) => (
-              <div
+              <button
                 key={feature.title}
-                className={`p-6 border transition-all duration-500 cursor-default ${
+                type="button"
+                aria-pressed={activeFeature === index}
+                className={`w-full p-6 text-left border transition-all duration-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring ${
                   activeFeature === index 
                     ? "border-foreground/30 bg-foreground/[0.04]" 
                     : "border-foreground/10"
@@ -159,7 +154,7 @@ export function SecuritySection() {
                     <p className="text-sm text-muted-foreground">{feature.description}</p>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
