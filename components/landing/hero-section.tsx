@@ -122,12 +122,12 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-start overflow-hidden bg-black">
       {/* Background video */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden motion-safe:animate-[hero-reveal_1.8s_ease-out_both]">
         <img
           src="/images/catedral-luna.png"
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover object-[65%_center] opacity-90 motion-safe:animate-[hero-zoom_24s_ease-in-out_infinite_alternate]"
+          className="w-full h-full object-cover object-[65%_center] opacity-90 origin-[65%_40%] will-change-transform motion-safe:animate-[hero-zoom_14s_cubic-bezier(0.45,0,0.55,1)_infinite_alternate]"
         />
         {/* Subtle overlay to ensure text readability on the left */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />

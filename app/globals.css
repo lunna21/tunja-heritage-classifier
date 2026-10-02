@@ -112,8 +112,13 @@
   }
 
   @keyframes hero-zoom {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.08); }
+    0% { transform: scale(1) translate3d(0, 0, 0); }
+    100% { transform: scale(1.28) translate3d(-3%, -2%, 0); }
+  }
+
+  @keyframes hero-reveal {
+    0% { opacity: 0; filter: blur(12px) brightness(0.6); }
+    100% { opacity: 1; filter: blur(0) brightness(1); }
   }
 
   @keyframes marquee {

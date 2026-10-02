@@ -47,37 +47,35 @@ export function InfrastructureSection() {
             Arquitectura colonial
           </span>
           
-          <div className={`group relative overflow-hidden border border-foreground/10 bg-black transition-all duration-1000 ${
+          <div className={`group relative overflow-hidden border border-foreground/10 bg-foreground/[0.02] transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}>
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_70%,rgba(234,179,8,0.22),transparent_55%)]"
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_25%_75%,rgba(236,168,214,0.10),transparent_55%)]"
             />
 
             <div className="relative grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-center">
-              <div className="relative h-[420px] lg:h-[600px] overflow-hidden">
+              <div className="relative h-[420px] lg:h-[600px] overflow-hidden border-b lg:border-b-0 lg:border-r border-foreground/10">
                 <img
                   src="/images/bolivar.jpeg"
                   alt="Monumento ecuestre a Simón Bolívar iluminado de noche en Tunja"
-                  className="w-full h-full object-contain object-bottom transition-transform duration-[1500ms] ease-out group-hover:scale-105"
+                  className="w-full h-full object-contain object-bottom grayscale-[35%] transition-all duration-[1500ms] ease-out group-hover:scale-105 group-hover:grayscale-0"
                 />
-                <span className="absolute top-6 left-6 inline-flex items-center gap-2 rounded-full border border-amber-200/30 bg-black/60 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-amber-100 backdrop-blur">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse" />
+                <span className="absolute top-6 left-6 inline-flex items-center gap-2 border border-foreground/15 bg-background/70 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground backdrop-blur">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#eca8d6] animate-pulse" />
                   Monumento ecuestre
                 </span>
               </div>
 
               <div className="flex flex-col justify-center px-8 pb-12 lg:px-12 lg:py-16">
-                <h2 className="text-6xl md:text-7xl lg:text-[120px] font-display tracking-tight leading-[0.9] text-white">
+                <h2 className="text-6xl md:text-7xl lg:text-[120px] font-display tracking-tight leading-[0.9] text-foreground">
                   Ciudad
                   <br />
-                  <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-orange-500 bg-clip-text text-transparent">
-                    monumento.
-                  </span>
+                  <span className="italic text-muted-foreground">monumento.</span>
                 </h2>
 
-                <p className={`mt-8 text-xl text-white/70 leading-relaxed max-w-lg transition-all duration-1000 delay-100 ${
+                <p className={`mt-8 text-xl text-muted-foreground leading-relaxed max-w-lg transition-all duration-1000 delay-100 ${
                   isVisible ? "opacity-100" : "opacity-0"
                 }`}>
                   Tejados de barro, balcones de madera y plazas empedradas. El centro histórico de Tunja
@@ -85,18 +83,18 @@ export function InfrastructureSection() {
                   cada una de sus plazas.
                 </p>
 
-                <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-8 max-w-lg">
+                <dl className="mt-10 grid grid-cols-3 gap-6 border-t border-foreground/10 pt-8 max-w-lg">
                   <div>
-                    <dt className="text-xs font-mono uppercase tracking-wider text-white/50">Fundación</dt>
-                    <dd className="mt-1 text-2xl font-display text-white">1539</dd>
+                    <dt className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Fundación</dt>
+                    <dd className="mt-1 text-2xl font-display text-foreground">1539</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-mono uppercase tracking-wider text-white/50">Monumento</dt>
-                    <dd className="mt-1 text-2xl font-display text-white">1959</dd>
+                    <dt className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Monumento</dt>
+                    <dd className="mt-1 text-2xl font-display text-foreground">1959</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-mono uppercase tracking-wider text-white/50">Altitud</dt>
-                    <dd className="mt-1 text-2xl font-display text-white">2.820 m</dd>
+                    <dt className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Altitud</dt>
+                    <dd className="mt-1 text-2xl font-display text-foreground">2.820 m</dd>
                   </div>
                 </dl>
               </div>
